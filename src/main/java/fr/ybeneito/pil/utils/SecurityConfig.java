@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -21,15 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
         auth.authenticationProvider(authenticationProvider());
-
-        /*
-        auth.inMemoryAuthentication()
-                .withUser("admin").password(passwordEncoder().encode( "nimda")).roles("ADMIN").and()
-                .withUser("waz").password(passwordEncoder().encode("azerty")).roles("USER").and()
-                .withUser("manager").password(passwordEncoder().encode("manager")).roles("MANAGER");
-        */
     }
 
     @Override
@@ -43,7 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/project/add").hasAnyRole("ADMIN", "MANAGER")
                 .and()
                 .formLogin()
-                .loginPage("/login").permitAll();
+                .loginPage("/login").permitAll()
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/")
+                .and().rememberMe();
     }
 
     @Bean
