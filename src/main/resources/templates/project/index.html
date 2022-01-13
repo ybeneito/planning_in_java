@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head th:replace="fragments :: head">
 </head>
 <body>
 <div th:replace="fragments :: navbar" />
 <div class="container">
     <h1>Liste des projets</h1>
-    <a href="/project/add">Ajouter un nouveau</a>
 
-    <table class="table table-dark">
-        <thead>
-        <tr>
-            <th scope="col">Nom</th>
-            <th scope="col">Description</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="p: ${projects}">
-            <td th:text="${p.getName()}"></td>
-            <td th:text="${p.getDescription()}"></td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="d-flex flex-wrap gap-3 mx-auto mt-5">
+        <div class="card text-white bg-dark" style="width: 15em" th:each="p: ${projects}">
+            <div class="card-header d-flex justify-content-between">
+                <h3 th:text="${p.getName()}"></h3>
+                <a class="btn btn-outline-danger" th:href="@{/project/delete/{id} (id=${p.id})}" sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">x</a>
+            </div>
+            <div class="card-body">
+                <p class="card-text" th:text="${p.getDescription()}"></p>
+                <p class="card-text" th:text="${p.getTeam().getName()}"></p>
+                <h5 class="card-title" th:text="${p.getActive() ? 'Actif' : 'Non actif'}"></h5>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center" style="width: 15em" sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
+            <a href="/project/add" class="btn btn-outline-success">+</a>
+        </div>
+    </div>
 </div>
 <div th:replace="fragments :: scripts"/>
 </body>

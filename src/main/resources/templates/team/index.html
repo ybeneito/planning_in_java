@@ -5,26 +5,23 @@
 <body>
 <div th:replace="fragments :: navbar" />
 <div class="container">
-    <h1>Liste des personnes</h1>
+    <h1>Liste des équipes</h1>
 
     <div class="d-flex flex-wrap gap-3 mx-auto mt-5">
-        <div class="card text-white bg-dark" style="width: 15em" th:each="p: ${persons}">
-
+        <div class="card text-white bg-dark" style="width: 15em" th:each="t: ${teams}">
             <div class="card-header d-flex justify-content-between">
-                <a class="card-title text-white fs-2" th:href="@{/person/{id} (id=${p.id})}" th:text="${p.getUsername()}"></a>
-                <a class="btn btn-outline-danger" th:href="@{/person/delete/{id} (id=${p.id})}" sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">x</a>
+                <h3 th:text="${t.getName()}"></h3>
+                <a class="btn btn-outline-danger" th:href="@{/team/delete/{id} (id=${t.id})}" sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">x</a>
             </div>
             <div class="card-body">
-                <h5 class="card-title" th:text="${p.getEmail()}"></h5>
-                <p class="card-text" th:text="${p.getDescription()}"></p>
+                <h5 class="card-title" th:text="${t.getDescription()}"></h5>
             </div>
-
         </div>
         <div class="d-flex justify-content-center align-items-center" style="width: 15em" sec:authorize="hasAnyRole('ADMIN', 'MANAGER')">
-            <a href="/person/add" class="btn btn-outline-success">+</a>
+            <a href="/team/add" class="btn btn-outline-success">+</a>
         </div>
     </div>
- </div>
+</div>
 <div th:replace="fragments :: scripts"/>
 </body>
 </html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments :: head">
+</head>
+<body>
+<div th:replace="fragments :: navbar" />
+<div class="container d-flex flex-column align-items-center">
+    <h1 th:text="${person.getUsername()}"></h1>
+    <h2 th:text="${person.getEmail()}"></h2>
+    <h2 th:text="${person.getDescription()}"></h2>
+</div>
+
+<div th:replace="fragments :: scripts"/>
+</body>
+</html>

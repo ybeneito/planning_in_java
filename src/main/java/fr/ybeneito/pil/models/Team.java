@@ -2,17 +2,15 @@ package fr.ybeneito.pil.models;
 
 import javax.persistence.*;
 
+
 @Entity
-public class Project {
+public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
     private String name;
     private String description;
-    private Boolean isActive;
-
-    @ManyToOne
-    private Team team;
 
     public Integer getId() {
         return id;
@@ -36,21 +34,5 @@ public class Project {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Boolean getActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
     }
 }

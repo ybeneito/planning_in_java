@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+
+
 @Controller
 @RequestMapping("person")
 public class PersonController {
@@ -17,9 +19,9 @@ public class PersonController {
 
     @PostMapping("add")
     public String addForm(@ModelAttribute Person person, Model m) {
-        m.addAttribute("person", person);
         repo.save(person);
-        return "person/ok";
+        m.addAttribute("persons", repo.findAll());
+        return "person/index";
     }
 
     @GetMapping("add")
@@ -27,21 +29,25 @@ public class PersonController {
         m.addAttribute("person", new Person());
         return "person/addPerson";
     }
-    /*
-    @PostMapping("/add")
-    String addPerson(@RequestParam String username, @RequestParam String description) {
-        Person p = new Person();
-        p.setUsername(username);
-        p.setDescription(description);
-        repo.save(p);
-        return  "ok";
-    }
-
-     */
 
     @GetMapping("")
     String getAll(Model model) {
         model.addAttribute("persons", repo.findAll());
         return "person/index";
     }
+
+    @GetMapping("{id}")
+    String getOne(@PathVariable(value = "id") Integer id, Model model) {
+        model.addAttribute("person", repo.findById(id).get());
+        return "person/personDetails";
+    }
+
+    @GetMapping("delete/{id}")
+    public String delete(@PathVariable(value = "id") Integer id, Model model) {
+        Person person = repo.findById(id).orElseThrow();
+        repo.delete(person);
+        model.addAttribute("persons", repo.findAll());
+        return "person/index";
+    }
+
 }

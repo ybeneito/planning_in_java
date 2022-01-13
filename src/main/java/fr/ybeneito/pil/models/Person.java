@@ -1,9 +1,6 @@
 package fr.ybeneito.pil.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Person {
@@ -13,6 +10,7 @@ public class Person {
     private Integer Id;
     private String username;
     private String description;
+    private String email;
 
     public Integer getId() {
         return Id;
@@ -37,4 +35,13 @@ public class Person {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }
